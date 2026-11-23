@@ -1,0 +1,8 @@
+{
+  "name": "PURNA YOGAM – பூர்ண யோகம்",
+  "description": "Ancient Wisdom. Inner Awakening. Universal Knowledge. A free Tamil and English spiritual knowledge and digital learning sanctuary for Thirukkural, Vedanta, Bhagavad Gita, Upanishads, and guided meditation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

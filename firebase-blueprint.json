@@ -1,0 +1,220 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Learner or staff profile without raw PII exposed publicly.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "role": { "type": "string", "enum": ["learner", "content_manager", "editor", "admin"] },
+        "preferredLanguage": { "type": "string", "enum": ["en", "ta"] },
+        "themePreference": { "type": "string", "enum": ["light", "dark"] },
+        "fontSize": { "type": "string", "enum": ["sm", "md", "lg"] },
+        "reducedMotion": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "displayName", "role", "preferredLanguage", "createdAt", "updatedAt"]
+    },
+    "UserPrivateInfo": {
+      "title": "UserPrivateInfo",
+      "description": "Isolated PII document for user email and reminder settings.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "email": { "type": "string", "minLength": 3, "maxLength": 254 },
+        "dailyReminderTime": { "type": "string", "maxLength": 16 },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "updatedAt"]
+    },
+    "AdminMember": {
+      "title": "AdminMember",
+      "description": "Authoritative RBAC record granting staff/admin privileges.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "role": { "type": "string", "enum": ["admin", "editor", "content_manager"] },
+        "grantedBy": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "role", "grantedBy", "createdAt"]
+    },
+    "Bookmark": {
+      "title": "Bookmark",
+      "description": "User saved Kural, lesson, book, or article.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "itemType": { "type": "string", "enum": ["kural", "lesson", "article", "book", "audio", "place"] },
+        "itemId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "title": { "type": "string", "minLength": 1, "maxLength": 240 },
+        "titleTa": { "type": "string", "maxLength": 240 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "uid", "itemType", "itemId", "title", "createdAt"]
+    },
+    "JournalEntry": {
+      "title": "JournalEntry",
+      "description": "Private spiritual reflection note in user Wisdom Journal.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "content": { "type": "string", "minLength": 1, "maxLength": 10000 },
+        "topic": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "linkedRef": { "type": "string", "maxLength": 200 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "uid", "title", "content", "topic", "createdAt", "updatedAt"]
+    },
+    "LessonProgress": {
+      "title": "LessonProgress",
+      "description": "Tracks user course and lesson completion state.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "programId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "lessonId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "completed": { "type": "boolean" },
+        "lastPositionSec": { "type": "number" },
+        "quizScore": { "type": "number" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "uid", "programId", "lessonId", "completed", "updatedAt"]
+    },
+    "PracticeLog": {
+      "title": "PracticeLog",
+      "description": "Tracks daily spiritual practice sessions and meditation minutes.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "dateKey": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "morningDone": { "type": "boolean" },
+        "afternoonDone": { "type": "boolean" },
+        "eveningDone": { "type": "boolean" },
+        "meditationMinutes": { "type": "number" },
+        "reflectionNote": { "type": "string", "maxLength": 2000 },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "uid", "dateKey", "morningDone", "afternoonDone", "eveningDone", "meditationMinutes", "updatedAt"]
+    },
+    "Certificate": {
+      "title": "Certificate",
+      "description": "Educational course-completion certificate verifiable by unique ID.",
+      "type": "object",
+      "properties": {
+        "certificateId": { "type": "string", "minLength": 6, "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "recipientName": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "programId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "programTitle": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "programTitleTa": { "type": "string", "maxLength": 200 },
+        "score": { "type": "number" },
+        "issuedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["certificateId", "uid", "recipientName", "programId", "programTitle", "score", "issuedAt"]
+    },
+    "CmsItem": {
+      "title": "CmsItem",
+      "description": "Managed educational content item created or edited via Admin CMS.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "moduleType": { "type": "string", "enum": ["kural", "lesson", "article", "book", "audio", "place", "quiz", "practice", "wisdom", "map", "activity"] },
+        "status": { "type": "string", "enum": ["draft", "published", "scheduled", "archived"] },
+        "title": { "type": "string", "minLength": 1, "maxLength": 300 },
+        "titleTa": { "type": "string", "maxLength": 300 },
+        "category": { "type": "string", "maxLength": 120 },
+        "payload": { "type": "object" },
+        "authorUid": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "scheduledFor": { "type": "string", "maxLength": 64 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "moduleType", "status", "title", "authorUid", "createdAt", "updatedAt"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Immutable editorial and administrative activity record.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "actorUid": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "action": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "targetType": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "targetId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "summary": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "actorUid", "action", "targetType", "targetId", "summary", "createdAt"]
+    },
+    "SiteSetting": {
+      "title": "SiteSetting",
+      "description": "Publicly readable homepage curation and SEO configuration.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "featuredKuralNumber": { "type": "number" },
+        "featuredLessonId": { "type": "string", "maxLength": 128 },
+        "seoTitle": { "type": "string", "maxLength": 160 },
+        "seoDescription": { "type": "string", "maxLength": 320 },
+        "updatedBy": { "type": "string", "maxLength": 128 },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "updatedBy", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profile and accessibility preferences; strictly owner or admin readable."
+    },
+    "/users/{userId}/private/{docId}": {
+      "schema": { "$ref": "#/entities/UserPrivateInfo" },
+      "description": "Isolated PII storage for user email and preferences."
+    },
+    "/users/{userId}/bookmarks/{bookmarkId}": {
+      "schema": { "$ref": "#/entities/Bookmark" },
+      "description": "User personal saved bookmarks."
+    },
+    "/users/{userId}/journalEntries/{entryId}": {
+      "schema": { "$ref": "#/entities/JournalEntry" },
+      "description": "Private Wisdom Journal entries belonging strictly to the user."
+    },
+    "/users/{userId}/lessonProgress/{progressId}": {
+      "schema": { "$ref": "#/entities/LessonProgress" },
+      "description": "User Vedanta and Thirukkural learning progress."
+    },
+    "/users/{userId}/practiceLogs/{logId}": {
+      "schema": { "$ref": "#/entities/PracticeLog" },
+      "description": "User daily spiritual practice and meditation logs."
+    },
+    "/admins/{adminUid}": {
+      "schema": { "$ref": "#/entities/AdminMember" },
+      "description": "Authoritative RBAC membership documents for Admin, Editor, and Content Manager roles."
+    },
+    "/certificates/{certificateId}": {
+      "schema": { "$ref": "#/entities/Certificate" },
+      "description": "Verifiable educational completion certificates."
+    },
+    "/cmsItems/{itemId}": {
+      "schema": { "$ref": "#/entities/CmsItem" },
+      "description": "CMS-managed educational content across modules."
+    },
+    "/auditLogs/{logId}": {
+      "schema": { "$ref": "#/entities/AuditLog" },
+      "description": "Append-only administrative audit logs."
+    },
+    "/siteSettings/{settingId}": {
+      "schema": { "$ref": "#/entities/SiteSetting" },
+      "description": "Homepage curation and SEO settings."
+    }
+  }
+}

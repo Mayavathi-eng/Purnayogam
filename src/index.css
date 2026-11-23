@@ -1,0 +1,116 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --bg-ivory: #FFF9ED;
+    --bg-sandal: #F6ECD8;
+    --surface-card: #FFFDF7;
+    --ink-primary: #1F1914;
+    --ink-muted: #5C4F42;
+    --border-sandal: #DFCAA2;
+    --temple-maroon: #641E24;
+    --antique-gold: #C6A15B;
+    --saffron: #D9822B;
+    --forest-green: #314B3B;
+    --midnight-blue: #172B45;
+  }
+
+  .dark {
+    --bg-ivory: #0F1A2B;
+    --bg-sandal: #15243A;
+    --surface-card: #172B45;
+    --ink-primary: #FBF4E4;
+    --ink-muted: #CBBBA0;
+    --border-sandal: #2A4163;
+    --temple-maroon: #D9822B;
+    --antique-gold: #D4B16E;
+    --saffron: #E59642;
+    --forest-green: #4E7A5F;
+    --midnight-blue: #0B1422;
+  }
+
+  html {
+    font-family: 'Plus Jakarta Sans', 'Noto Sans Tamil', system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  .font-display {
+    font-family: 'Cormorant Garamond', 'Noto Serif Tamil', Georgia, serif;
+  }
+
+  .font-serif-editorial {
+    font-family: 'Lora', 'Noto Serif Tamil', Georgia, serif;
+  }
+
+  .font-tamil {
+    font-family: 'Noto Serif Tamil', 'Noto Sans Tamil', serif;
+  }
+
+  .font-mono-tabular {
+    font-family: 'IBM Plex Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Subtle sacred mandala rotation */
+@keyframes slow-mandala-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-mandala-slow {
+  animation: slow-mandala-spin 90s linear infinite;
+}
+
+@keyframes gentle-float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translateY(-18px) translateX(6px);
+    opacity: 0.75;
+  }
+}
+
+.animate-light-particle {
+  animation: gentle-float 7s ease-in-out infinite;
+}
+
+.reduced-motion *,
+.reduced-motion *::before,
+.reduced-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-mandala-slow,
+  .animate-light-particle {
+    animation: none !important;
+  }
+}
+
+/* Font scale adjustments */
+html[data-font-size="sm"] {
+  font-size: 15px;
+}
+html[data-font-size="md"] {
+  font-size: 16px;
+}
+html[data-font-size="lg"] {
+  font-size: 18px;
+}
+
+/* Traditional delicate kolam geometric background motif */
+.bg-kolam-lattice {
+  background-image: radial-gradient(circle at 1px 1px, rgba(198, 161, 91, 0.18) 1px, transparent 0);
+  background-size: 28px 28px;
+}
